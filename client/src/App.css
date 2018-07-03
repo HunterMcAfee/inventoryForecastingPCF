@@ -1,0 +1,103 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.store {
+/*  margin-right: -10px;
+*/
+  width: 100%;
+/*  border-color: orange;
+*/}
+
+.factor {
+  width: 100% !important;
+/*  border-color: orange;
+*/
+}
+
+.week {
+/*  margin-left: -40px;
+*/
+width: 100% !important;
+/*border-color: orange;
+*/}
+
+.year {
+  width: 100%;
+  /*text-align: center;
+  margin-left: -30px;*/
+/*  border-color: orange;
+*/}
+
+.buttonEntry {
+  width: 16% !important;
+}
+
+.submitEntry {
+  width: 15% !important;
+  margin-left: 15px;
+}
+
+.newEntryList {
+  background-color: #7E846B;
+  height: 220px;
+  width: 80%;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden; 
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.topInput{
+  width: 100%;
+}
+
+.sideInput{
+  text-align: center;
+}
+
+.modalStyle{
+  background-color: #fff;
+  border-radius: 5;
+  max-width: 500;
+  min-height: 300;
+  margin: 0 auto;
+  padding: 30;
+};
+
+.backdropStyle{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: 'rgba(0,0,0,0.3)';
+  padding: 50;
+};
