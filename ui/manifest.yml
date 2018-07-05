@@ -1,4 +1,4 @@
 ---
 applications:
 - name: inventoryForecastReact
-  command: cd client && npm install && npm build && cd .. && npm start
+  command: cd client && npm install && npm run build && cd .. && npm run start
