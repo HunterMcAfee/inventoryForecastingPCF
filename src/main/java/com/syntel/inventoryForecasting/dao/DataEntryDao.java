@@ -21,9 +21,9 @@ public class DataEntryDao {
     @Qualifier("dataSource")
     DataSource dataSource;
 
-    private String storeData = "INSERT into forecast_capstone.saleshistory (sh_str_id, sh_week, sh_year, sh_qty, sh_sku_id, sh_factor_id) values (?,?,?,?,?,?)";
-    private String avgQtyByFactor = "SELECT round(AVG(sh_qty)) AS avg_qty from forecast_capstone.saleshistory where sh_factor_id = ? and sh_str_id = ? and sh_sku_id = ?";
-    private String storeFactorData = "INSERT into forecast_capstone.salesfactor (sf_sh_id, sf_f_id, sf_sign, sf_percentvalue) values (?,?,?,?)";
+    private String storeData = "INSERT into saleshistory (sh_str_id, sh_week, sh_year, sh_qty, sh_sku_id, sh_factor_id) values (?,?,?,?,?,?)";
+    private String avgQtyByFactor = "SELECT round(AVG(sh_qty)) AS avg_qty from saleshistory where sh_factor_id = ? and sh_str_id = ? and sh_sku_id = ?";
+    private String storeFactorData = "INSERT into salesfactor (sf_sh_id, sf_f_id, sf_sign, sf_percentvalue) values (?,?,?,?)";
 
     public String storeDataEntry(DataEntry dataEntry) {
         System.out.println(dataEntry.getStoreId());
@@ -51,8 +51,8 @@ public class DataEntryDao {
         int index = 0;
 
         for (String skuStr : skuArr) {
-            aveQuantityNormalDay = jdbcTemplate.query("SELECT round(AVG(sh_qty)) AS avg_qty from forecast_capstone.saleshistory where saleshistory.sh_factor_id = " + 0 + " and saleshistory.sh_str_id = " + stoteId + " and saleshistory.sh_sku_id LIKE  '%" + skuStr + "%'", new BeanPropertyRowMapper<>(QueryReturnQty.class));
-//            aveQuantityNormalDay = jdbcTemplate.query("SELECT round(AVG(sh_qty)) AS avg_qty from forecast_capstone.saleshistory where saleshistory.sh_factor_id = " + 0 + " and saleshistory.sh_str_id = " + stoteId, new BeanPropertyRowMapper<>(QueryReturnQty.class));
+            aveQuantityNormalDay = jdbcTemplate.query("SELECT round(AVG(sh_qty)) AS avg_qty from saleshistory where saleshistory.sh_factor_id = " + 0 + " and saleshistory.sh_str_id = " + stoteId + " and saleshistory.sh_sku_id LIKE  '%" + skuStr + "%'", new BeanPropertyRowMapper<>(QueryReturnQty.class));
+//            aveQuantityNormalDay = jdbcTemplate.query("SELECT round(AVG(sh_qty)) AS avg_qty from saleshistory where saleshistory.sh_factor_id = " + 0 + " and saleshistory.sh_str_id = " + stoteId, new BeanPropertyRowMapper<>(QueryReturnQty.class));
           //  aveQuantityNormalDay = jdbcTemplate.query(avgQtyByFactor, )
 //            aveQuantityByFactor = jdbcTemplate.query(avgQtyByFactor + dataEntry.getFactorId() + " and sh_sku_id = " + skuStr, new BeanPropertyRowMapper<>(QueryReturnQty.class));
             System.out.println(aveQuantityNormalDay.get(0).getAvg_qty());
@@ -66,12 +66,12 @@ public class DataEntryDao {
         for(int i = 0; i < skuArr.length; i++) {
             System.out.println(listOfAveQtyNormalDay[i]);
         }
-        //List<QueryReturnQty> aveQuantityNormalDay = jdbcTemplate.query("SELECT sh_qty from forecast_capstone.saleshistory where sh_factor_id = " + dataEntry.getFactorId(), new BeanPropertyRowMapper<>(QueryReturnQty.class));
+        //List<QueryReturnQty> aveQuantityNormalDay = jdbcTemplate.query("SELECT sh_qty from saleshistory where sh_factor_id = " + dataEntry.getFactorId(), new BeanPropertyRowMapper<>(QueryReturnQty.class));
 
 //        int avgQtyNormalDay = aveQuantityNormalDay.get(0).getAvg_qty();
 //        System.out.println(avgQtyNormalDay);
 
-//        //List<QueryReturnQty> aveQuantityNormalDay = jdbcTemplate.query("SELECT sh_qty from forecast_capstone.saleshistory where sh_factor_id = " + dataEntry.getFactorId(), new BeanPropertyRowMapper<>(QueryReturnQty.class));
+//        //List<QueryReturnQty> aveQuantityNormalDay = jdbcTemplate.query("SELECT sh_qty from saleshistory where sh_factor_id = " + dataEntry.getFactorId(), new BeanPropertyRowMapper<>(QueryReturnQty.class));
 //        int avgQtyByFactor = aveQuantityByFactor.get(0).getAvg_qty();
 //        System.out.println(avgQtyByFactor);
         int [] primarykeyOfsalesfactor = new int[skuArr.length];
@@ -79,20 +79,20 @@ public class DataEntryDao {
 
         for(int i = 0; i < skuArr.length; i++) {
 
-            listOfPK_ExistingSFRow = jdbcTemplate.query("SELECT saleshistory.sh_id AS avg_qty from forecast_capstone.saleshistory where saleshistory.sh_str_id = " + dataEntry.getStoreId() + " and saleshistory.sh_week = " + dataEntry.getWeek() + " and saleshistory.sh_year = " + dataEntry.getYear() + " and saleshistory.sh_sku_id LIKE '%" + skuArr[i] + "%'", new BeanPropertyRowMapper<>(QueryReturnQty.class));
+            listOfPK_ExistingSFRow = jdbcTemplate.query("SELECT saleshistory.sh_id AS avg_qty from saleshistory where saleshistory.sh_str_id = " + dataEntry.getStoreId() + " and saleshistory.sh_week = " + dataEntry.getWeek() + " and saleshistory.sh_year = " + dataEntry.getYear() + " and saleshistory.sh_sku_id LIKE '%" + skuArr[i] + "%'", new BeanPropertyRowMapper<>(QueryReturnQty.class));
             if(listOfPK_ExistingSFRow.isEmpty()) {
                 System.out.println("ITS NULL");
             }
             if (!listOfPK_ExistingSFRow.isEmpty()) {
                 System.out.println(listOfPK_ExistingSFRow.get(0).getAvg_qty());
-                jdbcTemplate.update("UPDATE forecast_capstone.saleshistory SET sh_qty = " + quantityArr[i] + ", sh_factor_id = " +  dataEntry.getFactorId() + " WHERE sh_id = " + listOfPK_ExistingSFRow.get(0).getAvg_qty());
+                jdbcTemplate.update("UPDATE saleshistory SET sh_qty = " + quantityArr[i] + ", sh_factor_id = " +  dataEntry.getFactorId() + " WHERE sh_id = " + listOfPK_ExistingSFRow.get(0).getAvg_qty());
                 System.out.println("ERROR is here");
                 System.out.println("ERROR is here");
                 primarykeyOfsalesfactor[i] = listOfPK_ExistingSFRow.get(0).getAvg_qty();
             } else {
                 jdbcTemplate.update(storeData, dataEntry.getStoreId(), dataEntry.getWeek(), dataEntry.getYear(), quantityArr[i],
                         skuArr[i], dataEntry.getFactorId());
-                listOfPKSalesFactor = jdbcTemplate.query("select max(sh_id) AS avg_qty from forecast_capstone.saleshistory", new BeanPropertyRowMapper<>(QueryReturnQty.class));
+                listOfPKSalesFactor = jdbcTemplate.query("select max(sh_id) AS avg_qty from saleshistory", new BeanPropertyRowMapper<>(QueryReturnQty.class));
                 primarykeyOfsalesfactor[i] = listOfPKSalesFactor.get(0).getAvg_qty();
                 System.out.println("ERRRRRRRR");
             }
@@ -127,11 +127,11 @@ public class DataEntryDao {
             System.out.println("Percentage: " + percentage + " sign " + sign);
             System.out.println(primarykeyOfsalesfactor[i]);
 
-            listOfPrimaryKeySF = jdbcTemplate.query("SELECT salesfactor.sf_id AS avg_qty from forecast_capstone.salesfactor where salesfactor.sf_sh_id = " + primarykeyOfsalesfactor[i], new BeanPropertyRowMapper<>(QueryReturnQty.class));
+            listOfPrimaryKeySF = jdbcTemplate.query("SELECT salesfactor.sf_id AS avg_qty from salesfactor where salesfactor.sf_sh_id = " + primarykeyOfsalesfactor[i], new BeanPropertyRowMapper<>(QueryReturnQty.class));
 
             if(!listOfPrimaryKeySF.isEmpty()) {
                 System.out.println(listOfPrimaryKeySF.get(0).getAvg_qty());
-                jdbcTemplate.update("UPDATE forecast_capstone.salesfactor SET sf_f_id = " +  dataEntry.getFactorId() + ", sf_sign = " + sign + ", sf_percentvalue = " + percentage + " WHERE sf_id = " + listOfPrimaryKeySF.get(0).getAvg_qty());
+                jdbcTemplate.update("UPDATE salesfactor SET sf_f_id = " +  dataEntry.getFactorId() + ", sf_sign = " + sign + ", sf_percentvalue = " + percentage + " WHERE sf_id = " + listOfPrimaryKeySF.get(0).getAvg_qty());
                 System.out.println("UPDATED row in salesfactor");
             } else {
                 jdbcTemplate.update(storeFactorData, primarykeyOfsalesfactor[i], dataEntry.getFactorId(), sign, percentage);

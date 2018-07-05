@@ -18,13 +18,13 @@ public class ForecastDao {
     JdbcTemplate jdbcTemplate;
 
     public List<Factors> getFactors() {
-        String sql = "Select f_description FROM forecast_capstone.factors";
+        String sql = "Select f_description FROM factors";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Factors.class));
     }
 
     public List<QueryResult> getPastSales(SearchParam query) {
         String sqlSelect = "SELECT sh_week AS week, sh_year AS year, f_description AS factor, sh_sku_id AS sku_id, sku_description AS description, sh_qty AS quantity";
-        String sqlFrom = " FROM forecast_capstone.saleshistory, forecast_capstone.factors, forecast_capstone.skumaster";
+        String sqlFrom = " FROM saleshistory, factors, skumaster";
         String sqlWhere = " WHERE sh_factor_id = f_id AND sh_sku_id = sku_id";
         String sqlConditions = "";
         String sqlOrder = " ORDER BY sh_year, sh_week";
@@ -32,7 +32,7 @@ public class ForecastDao {
         ArrayList<Object> arguments = new ArrayList<>();
 
         if (query.getType() != "") {
-            sqlFrom += ", forecast_capstone.strmaster";
+            sqlFrom += ", strmaster";
             sqlConditions += " AND sh_str_id = str_id AND str_type = ?";
             arguments.add(query.getType());
         }
@@ -100,7 +100,7 @@ public class ForecastDao {
 
     public List<QueryResult> getDifferentStoresales(SearchParam query){
         String sqlSelect = "SELECT sh_week AS week, sh_year AS year, f_description AS factor, sh_sku_id AS sku_id, sku_description AS description, sh_qty AS quantity";
-        String sqlFrom = " FROM forecast_capstone.saleshistory, forecast_capstone.factors, forecast_capstone.skumaster, forecast_capstone.strmaster, (SELECT str_type AS stype FROM forecast_capstone.strmaster WHERE str_id = ?) strtype";
+        String sqlFrom = " FROM saleshistory, factors, skumaster, strmaster, (SELECT str_type AS stype FROM strmaster WHERE str_id = ?) strtype";
         String sqlWhere = " WHERE sh_factor_id = f_id AND sh_sku_id = sku_id AND sh_str_id = str_id AND stype = str_type";
         String sqlConditions = "";
         String sqlOrder = " ORDER BY sh_year, sh_week";
@@ -218,7 +218,7 @@ public class ForecastDao {
             factorMultiplierArrayList.add(factorMultiplier);
             return factorMultiplierArrayList;
         } else if (query.getFactor() != "") {
-            String sql = "SELECT sf_sign, sf_percentvalue FROM forecast_capstone.salesfactor, forecast_capstone.saleshistory, forecast_capstone.factors WHERE sf_sh_id = sh_id AND sf_f_id = f_id ";
+            String sql = "SELECT sf_sign, sf_percentvalue FROM salesfactor, saleshistory, factors WHERE sf_sh_id = sh_id AND sf_f_id = f_id ";
             ArrayList<Object> arguments = new ArrayList<>();
             if (query.getStr() != "") {
                 sql += " AND sh_str_id = ?";

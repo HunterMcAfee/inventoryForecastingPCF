@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -32,19 +31,19 @@ public class FakeInventoryDao {
 
 
     public List<FactorModel> getFactorList(){
-        String SQL = "SELECT * FROM forecast_capstone.factors;";
+        String SQL = "SELECT * FROM factors;";
         List<FactorModel> m = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(FactorModel.class));
         return m;
     }
 
     public List<SkuMasterModel> getSkuMasterTable(){
-        String SQL = "SELECT * FROM forecast_capstone.skumaster;";
+        String SQL = "SELECT * FROM skumaster;";
         List<SkuMasterModel> m = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(SkuMasterModel.class));
         return m;
     }
 
     public List<StrNumModel> getStrNumTable(){
-        String SQL = "SELECT * FROM forecast_capstone.strmaster;";
+        String SQL = "SELECT * FROM strmaster;";
         List<StrNumModel> m = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(StrNumModel.class));
         return m;
     }
