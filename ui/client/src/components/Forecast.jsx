@@ -25,7 +25,7 @@ export default class Forecast extends Component {
 
     componentDidMount() {
         // make axios call to our backend for all str incase new factors have been added
-        axios.post('http://inventory-forecasting-api.cfapps.io/factors')
+        axios.post('https://inventory-forecasting-api.cfapps.io/factors')
             .then((res) => {
                 this.setState({
                     factors: res.data
@@ -77,7 +77,7 @@ export default class Forecast extends Component {
             yearEnd: yearEnd
         }
 
-        axios.post('http://inventory-forecasting-api.cfapps.io/past', searchParams)
+        axios.post('https://inventory-forecasting-api.cfapps.io/past', searchParams)
             .then((res) => {
                 this.setState({
                     pastInfo: res.data
@@ -88,7 +88,7 @@ export default class Forecast extends Component {
                 console.log(error);
             })
 
-        axios.post('http://inventory-forecasting-api.cfapps.io/factorMultiplier', searchParams)
+        axios.post('https://inventory-forecasting-api.cfapps.io/factorMultiplier', searchParams)
             .then((res) => {
                 if (res.data.length > 0) {
                     let multiplierData = res.data;
@@ -124,7 +124,7 @@ export default class Forecast extends Component {
             searchParams,
             pastInfoResults: this.state.pastInfo
         }
-        axios.post('http://inventory-forecasting-api.cfapps.io/forecast', payload)
+        axios.post('https://inventory-forecasting-api.cfapps.io/forecast', payload)
             .then((res) => {
                 this.setState({
                     forecastInfo: res.data

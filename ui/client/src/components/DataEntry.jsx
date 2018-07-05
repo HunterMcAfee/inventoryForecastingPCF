@@ -38,15 +38,15 @@ export default class DataEntry extends Component {
 
   componentDidMount() {
 
-    axios.post("http://inventory-forecasting-api.cfapps.io/factorData")
+    axios.post("https://inventory-forecasting-api.cfapps.io/factorData")
       .then((res) => { this.setState({ factorOption: res.data }); })
       .catch(function (error) { if (!error.error); });
 
-    axios.post("http://inventory-forecasting-api.cfapps.io/skuMasterData")
+    axios.post("https://inventory-forecasting-api.cfapps.io/skuMasterData")
       .then((res) => { this.setState({ skuData: res.data }) })
       .catch(function (error) { if (!error.error); });
 
-    axios.post("http://inventory-forecasting-api.cfapps.io/strMasterData")
+    axios.post("https://inventory-forecasting-api.cfapps.io/strMasterData")
       .then((res) => { this.setState({ strNumberData: res.data }) })
       .catch(function (error) { if (!error.error); });
   }
@@ -237,7 +237,7 @@ export default class DataEntry extends Component {
     console.log(obj);
     let success = true;
 
-    axios.post("http://inventory-forecasting-api.cfapps.io/dataEntry", obj)
+    axios.post("https://inventory-forecasting-api.cfapps.io/dataEntry", obj)
       .then((res) => {/* console.log(res.data); */ })
       .catch(function (error) { if (!error.error); });
 
